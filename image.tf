@@ -28,7 +28,8 @@ resource "proxmox_virtual_environment_download_file" "this" {
   content_type            = "iso"
   datastore_id            = var.image.proxmox_datastore
   file_name               = "talos-${var.image.version}-${talos_image_factory_schematic.generated.id}-${var.image.platform}-${var.image.arch}.img"
-  url                     = data.talos_image_factory_urls.this.urls.iso
+  url                     = data.talos_image_factory_urls.this.urls.disk_image
+  decompression_algorithm = "zst"
   overwrite               = false
 }
 
