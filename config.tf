@@ -18,19 +18,24 @@ data "talos_machine_configuration" "this" {
   talos_version    = var.cluster.talos_version
   machine_type     = each.value.machine_type
   machine_secrets  = talos_machine_secrets.this.machine_secrets
-  config_patches   = each.value.machine_type == "controlplane" ? [
+  config_patches   = each.value.machine_type == "controlplane" ? var.controlplane_patches.useDefault ? [
+    # If the node is a controlplane and no custom patches are provided, use the default machine config
     templatefile("${path.module}/machine-config/control-plane.yaml.tftpl", {
-      hostname       = each.key
-      node_name      = each.value.host_node
-      cluster_name   = var.cluster.proxmox_cluster
-    })
-  ] : [
-    templatefile("${path.module}/machine-config/worker.yaml.tftpl", {
+        hostname       = each.key
+        # Use cluster name as a region and node name as a zone
+        zone_name      = each.value.host_node
+        region_name    = var.cluster.proxmox_cluster
+      })
+  # otherwise use custom machine config
+  ] : var.controlplane_patches.patches : var.worker_patches.useDefault ? [
+     # If the node is a worker node and no custom patches are provided, use the default machine config
+   templatefile("${path.module}/machine-config/worker.yaml.tftpl", {
       hostname     = each.key
       node_name    = each.value.host_node
       cluster_name = var.cluster.proxmox_cluster
     })
-  ]
+  # otherwise use custom machine config
+  ] : var.worker_patches.patches
 }
 
 # Apply talos configuration

@@ -20,6 +20,7 @@ variable "cluster" {
   })
 }
 
+# A variable to store the configuration for cluster nodes
 variable "nodes" {
   description = "Configuration for cluster nodes"
   type = map(object({
@@ -32,4 +33,32 @@ variable "nodes" {
     cpu          = number
     ram          = number
   }))
+}
+
+# A variable to store the patches for controlplane nodes
+# if useDefault is true, the default patches will be used. Otherwise, the provided patches will be used
+variable "controlplane_patches" {
+  description = "Patches for controlplane nodes"
+  type        = object({
+    useDefault = bool
+    patches = list(string)
+  })
+  default = {
+    useDefault = true
+    patches    = []
+  }
+}
+
+# A variable to store the patches for worker nodes
+# if useDefault is true, the default patches will be used. Otherwise, the provided patches will be used
+variable "worker_patches" {
+  description = "Patches for worker nodes"
+  type        = object({
+    useDefault = bool
+    patches = list(string)
+  })
+  default = {
+    useDefault = true
+    patches    = []
+  }
 }
