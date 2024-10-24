@@ -3,12 +3,13 @@ output "machine_config" {
 }
 
 output "client_configuration" {
+  description = "talos client (talosctl) configuration"
   value     = data.talos_client_configuration.this
   sensitive = true
 }
 
 output "kube_config" {
-  #value     = data.talos_cluster_kubeconfig.this
+  description = "cluster kubeconfig"
   value =  talos_cluster_kubeconfig.this
   sensitive = true
 }

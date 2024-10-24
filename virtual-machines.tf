@@ -59,6 +59,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     }
   }
 
+  # Commented out until I can get iGPU passthrough working
   # dynamic "hostpci" {
   #   for_each = each.value.igpu ? [1] : []
   #   content {

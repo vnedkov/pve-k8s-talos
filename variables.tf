@@ -35,30 +35,14 @@ variable "nodes" {
   }))
 }
 
-# A variable to store the patches for controlplane nodes
-# if useDefault is true, the default patches will be used. Otherwise, the provided patches will be used
-variable "controlplane_patches" {
-  description = "Patches for controlplane nodes"
-  type        = object({
-    useDefault = bool
+variable "machine_config_patches" {
+  description = "Map of machine config patches, where node name is a key and value is a list of patches to apply to the node."
+  type = map(object({
     patches = list(string)
-  })
+  }))
   default = {
-    useDefault = true
-    patches    = []
-  }
-}
-
-# A variable to store the patches for worker nodes
-# if useDefault is true, the default patches will be used. Otherwise, the provided patches will be used
-variable "worker_patches" {
-  description = "Patches for worker nodes"
-  type        = object({
-    useDefault = bool
-    patches = list(string)
-  })
-  default = {
-    useDefault = true
-    patches    = []
+    "" = {
+      patches = []
+    }
   }
 }

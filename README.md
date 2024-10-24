@@ -19,6 +19,16 @@ Installs a Kubernetes cluster with nodes running [Talos Linux](https://www.talos
 | cluster.talos_version | string | No | Talos OS version |
 | cluster.proxmox_cluster | string | No | Name of the Proxmox cluster |
 |||||
+| nodes | map(object) | No | A variable, describing cluster nodes. Node name is used as a map key and also treated as a hostname. Each objects describes parameter of a virtual machine that will be created. |
+| node.host_node | string | No | Name of the proxmox node where the virtual machine will be created |
+| node.machine_type | string | No | `controlplane` or `worker` |
+| node.datastore_id | string | Yes | Name of the data store within proxmox node, where the startup disk will be created |
+| node.ip | string | No | Static IPv4 address to be assigned to the virtual machine |
+| node.mac_address | string | No | MAC address to be assigned to the virtual machine |
+| node.vm_id | number | No | Virtual machine ID within proxmox |
+| node.cpu | number | No | Number of virtual CPU cores |
+| node.ram | number | No | Size of RAM in MB to be allocated |
+
 
 ## Sample configuration
 ```tf
