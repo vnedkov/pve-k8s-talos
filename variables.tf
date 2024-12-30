@@ -37,12 +37,8 @@ variable "nodes" {
 
 variable "machine_config_patches" {
   description = "Map of machine config patches, where node name is a key and value is a list of patches to apply to the node."
-  type = map(object({
-    patches = list(string)
-  }))
+  type = map(list(string))
   default = {
-    "" = {
-      patches = []
-    }
+    "" = []
   }
 }
