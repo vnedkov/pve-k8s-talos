@@ -24,6 +24,7 @@ Installs a Kubernetes cluster with nodes running [Talos Linux](https://www.talos
 | node.machine_type | string | No | `controlplane` or `worker` |
 | node.datastore_id | string | Yes | Name of the data store within proxmox node, where the startup disk will be created |
 | node.ip | string | No | Static IPv4 address to be assigned to the virtual machine |
+| node.cidr_prefix | number | Yes | CIDR prefix. Default is 24 (256 addresses) |
 | node.mac_address | string | No | MAC address to be assigned to the virtual machine |
 | node.vm_id | number | No | Virtual machine ID within proxmox |
 | node.cpu | number | No | Number of virtual CPU cores |
