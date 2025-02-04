@@ -31,8 +31,9 @@ variable "nodes" {
     cidr_prefix  = optional(number, 24)
     mac_address  = string
     vm_id        = number
-    cpu          = number
-    ram          = number
+    cpu          = number # cpu cores
+    ram          = number # ram size in MB
+    disk         = optional(number, 20) # disk size in GB
   }))
 }
 
