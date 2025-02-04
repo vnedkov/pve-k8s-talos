@@ -29,6 +29,7 @@ Installs a Kubernetes cluster with nodes running [Talos Linux](https://www.talos
 | node.vm_id | number | No | Virtual machine ID within proxmox |
 | node.cpu | number | No | Number of virtual CPU cores |
 | node.ram | number | No | Size of RAM in MB to be allocated |
+| node.disk_size | number | Yes | Disk Size in GB with default value of 20GB |
 
 
 ## Sample configuration

@@ -33,7 +33,7 @@ variable "nodes" {
     vm_id        = number
     cpu          = number # cpu cores
     ram          = number # ram size in MB
-    disk         = optional(number, 20) # disk size in GB
+    disk_size    = optional(number, 20) # disk size in GB
   }))
 }
 
