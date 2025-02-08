@@ -1,6 +1,5 @@
 resource "proxmox_virtual_environment_vm" "this" {
   for_each = var.nodes
-
   node_name = each.value.host_node
 
   name        = each.key
@@ -31,6 +30,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     mac_address = each.value.mac_address
   }
 
+  # OS disk
   disk {
     datastore_id = each.value.datastore_id
     interface    = "scsi0"
@@ -41,6 +41,26 @@ resource "proxmox_virtual_environment_vm" "this" {
     file_format  = "raw"
     size         = each.value.disk_size
     file_id      = proxmox_virtual_environment_download_file.this[each.value.host_node].id
+  }
+
+  # Additional data disks - separating from the OS disk above
+  dynamic "disk" {
+    # each additional_disk is an object with a "key" that is its index within the list and a "value" being the object in the list
+    for_each = { for idx, additional_disk in each.value.additional_disks: idx => additional_disk}
+    iterator = additional_disk
+      # If path_in_datastore is present, it will try to attach the existing disk instead of creating a new one
+      content {
+        datastore_id      = additional_disk.value.datastore_id
+        interface         = "scsi${additional_disk.key + 1}"
+        iothread          = additional_disk.value.iothread
+        cache             = additional_disk.value.cache
+        discard           = additional_disk.value.discard
+        ssd               = additional_disk.value.ssd
+        // Need to match the format of the existing file. If left unset it will default to qcow2
+        file_format       = additional_disk.value.format
+        size              = additional_disk.value.path_in_datastore == null ? additional_disk.value.size : null
+        path_in_datastore = additional_disk.value.path_in_datastore
+      }
   }
 
   boot_order = ["scsi0"]

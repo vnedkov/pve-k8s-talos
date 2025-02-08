@@ -34,6 +34,16 @@ variable "nodes" {
     cpu          = number # cpu cores
     ram          = number # ram size in MB
     disk_size    = optional(number, 20) # disk size in GB
+    additional_disks = optional(list(object({
+      size         = optional(number) # Size in GB
+      datastore_id = optional(string, "local-lvm")
+      format       = optional(string, "raw")
+      iothread     = optional(bool, true)
+      cache        = optional(string, "writethrough")
+      discard      = optional(string, "on")
+      ssd          = optional(bool, true)
+      path_in_datastore = optional(string, null)
+    })), [])
   }))
 }
 
